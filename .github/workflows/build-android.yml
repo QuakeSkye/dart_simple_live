@@ -1,7 +1,7 @@
 name: Build Android APK
 
 on:
-  workflow_dispatch: # 手动触发
+  workflow_dispatch:
 
 jobs:
   build:
@@ -13,11 +13,16 @@ jobs:
         with:
           flutter-version: '3.24.0'
 
-      - run: flutter pub get
-      - run: flutter build apk --release
+      - name: Get dependencies
+        working-directory: dart_simple_live
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: dart_simple_live
+        run: flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: dart_simple_live-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: dart_simple_live/build/app/outputs/flutter-apk/app-release.apk
